@@ -1,0 +1,10 @@
+/Users/gunmo/GitHub/react-springboot-rest-api/gc-coffee/src/main/java/com/example/gccoffee/repository/ProductRepository.java
+/Users/gunmo/GitHub/react-springboot-rest-api/gc-coffee/src/main/java/com/example/gccoffee/Utils.java
+/Users/gunmo/GitHub/react-springboot-rest-api/gc-coffee/src/main/java/com/example/gccoffee/repository/ProductJdbcRepository.java
+/Users/gunmo/GitHub/react-springboot-rest-api/gc-coffee/src/main/java/com/example/gccoffee/model/OrderItem.java
+/Users/gunmo/GitHub/react-springboot-rest-api/gc-coffee/src/main/java/com/example/gccoffee/model/Product.java
+/Users/gunmo/GitHub/react-springboot-rest-api/gc-coffee/src/main/java/com/example/gccoffee/model/OrderStatus.java
+/Users/gunmo/GitHub/react-springboot-rest-api/gc-coffee/src/main/java/com/example/gccoffee/model/Order.java
+/Users/gunmo/GitHub/react-springboot-rest-api/gc-coffee/src/main/java/com/example/gccoffee/GcCoffeeApplication.java
+/Users/gunmo/GitHub/react-springboot-rest-api/gc-coffee/src/main/java/com/example/gccoffee/model/Email.java
+/Users/gunmo/GitHub/react-springboot-rest-api/gc-coffee/src/main/java/com/example/gccoffee/model/Category.java
