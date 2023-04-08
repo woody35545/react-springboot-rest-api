@@ -42,7 +42,6 @@ UUID를 insert 할 때 byte로 변환하는 과정에서 문제가 있는것으�
 /* pseudo */
 productId := UUID.RandomUUID().toString();
 ```
-또한 이에 따라 DB Schema도 `BINARY`에서 `VARCHAR`로 변경하였음.
 
 ```java
 public class Product {
@@ -56,10 +55,54 @@ public class Product {
     private LocalDateTime updatedAt;
 ```
 
-### 2. Embedded Mysql Connection은 되는데 테이블 추가하면 오류나는 문제
-    
-![image](https://user-images.githubusercontent.com/84436996/230707085-6327eb23-4673-41fd-be34-c3d21a0d686d.png)
-    
+### DB Schema 변경 (products)
+또한 이에 따라 DB Schema도 `BINARY`에서 `VARCHAR`로 변경하였다.  
+<img width="500" alt="image" src="https://user-images.githubusercontent.com/84436996/230708842-2c65eb64-e202-4862-adb1-6db28c8a39ed.png">  
 
+
+**ProductJdbcRepository.java**
+```java
+@Override
+public Product insert(Product product) {
+
+/*  String SQL ="INSERT INTO products(product_id, product_name, category, price, description, created_at, updated_at) " +
+                "VALUES(UUID_TO_BIN(:productId), :productName, :category, :price, :description, :createdAt, :updatedAt)"; */
+
+        String SQL ="INSERT INTO products(product_id, product_name, category, price, description, created_at, updated_at) " +
+                "VALUES(UUID_TO_BIN(:productId), :productName, :category, :price, :description, :createdAt, :updatedAt)";
+
+        var update = jdbcTemplate.update(SQL, toParamMap(product));
+    if(update != 1)
+        throw new RuntimeException("Nothing was inserted");
+    return product;
+}
+```
+UUID_TO_BIN 도 사용하지 않도록 바꿔주었다. 
+
+### 변경 후 product insert test 
+
+**테스트 코드 작성(ProductJdbcRepositoryTest.java)** 
+```java
+@Autowired
+ProductRepository productRepository;
+private final Product newProduct = new Product(UUID.randomUUID().toString().replace("-",""), "new-product", Category.COFFEE_BEAN_PACKAGE, 1000L,"", LocalDateTime.now(), LocalDateTime.now());
+
+    @Test
+    @Order(1)
+    @DisplayName("product insert test")
+    void testInsert(){
+        productRepository.insert(newProduct);
+        var all = productRepository.findAll();
+        assertThat(all.isEmpty(), is(false));
+    }
+```
+
+### 테스트 결과
+<img width="315" alt="image" src="https://user-images.githubusercontent.com/84436996/230708615-ed50e4e5-6692-45b7-aa7d-7c89821db761.png">
+정상적으로 추가되는 것을 확인하였다.
+
+
+### 2. Embedded Mysql Connection은 되는데 테이블 추가하면 오류나는 문제      
+<img width="700" alt="image" src="https://user-images.githubusercontent.com/84436996/230707085-6327eb23-4673-41fd-be34-c3d21a0d686d.png">
 - 직접 구축한 mysql server에 connection 하여 테스트하면 성공하는데 `embedded mysql`을 이용하면 실패하는 것을 보아서, Product table을 추가하는 sql문인 `scehma.sql`을 제대로 읽지 못하는 것으로 보인다.
 - 아직 문제를 해결하지 못하여 embedded mysql를 사용하지 않고 직접 구축한 db 서버에 connection 하여 진행하였다.
