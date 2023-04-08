@@ -89,5 +89,13 @@ class ProductJdbcRepositoryTest {
         var product = productRepository.findByCategory(Category.COFFEE_BEAN_PACKAGE);
         assertThat(product.isEmpty(), is(false));
     }
+    @Test
+    @Order(5)
+    @DisplayName("상품을 전체 삭제한다.")
+    void testDeleteAll() {
+        productRepository.deleteAll();
+        var all = productRepository.findAll();
+        assertThat(all.isEmpty(), is(true));
+    }
 
 }
