@@ -1,10 +1,36 @@
-# [프로젝트] React - Spring Boot 상품 관리, 주문관리 API 구현
-## 프로젝트 소개 😎
-React로 만들어진 Front End가 정해져있는 상황에서,
-백엔드 개발자가 Spring Boot로 상품관리 API를 구현하여 A-Z 최종 서비스를 완성시켜봅니다.
-클로닝 외에도 "본인만의 아이디어"를 추가하여 더 발전시켜 완성해봅니다. 
+# :chart_with_upwards_trend: Progress
+* 각 Repository를 바로 구현체로 구현하지 않고 Interface와 구현체를 분리하였다
+* 현재는 NamedParameterJdbcTemplate을 이용한 jdbcRepository의 구현체로 사용중
+* 추후 JPA로도 구현하여 적절하게 혼합하여 사용할 예정
 
-## 이곳은 공개 Repo입니다.
-1. 이 repo를 fork한 뒤
-2. 여러분의 개인 Repo에서 상품관리 API를 A-Z까지 작업하여 
-3. 개발이 끝나면 이 Repo에 PR을 보내어 제출을 완료해주세요.
+
+# :bug: Bugs
+
+### 1. UUID type 문제
+UUID를 insert 할 때 byte로 변환하는 과정에서 문제가 있는것으로 확인.
+문제 해결될 때까지 나머지 구현이 지체되지 않도록 `UUID` 타입을 `String`으로 변경하여 다루었다. 
+```
+/* pseudo */
+productId := UUID.RandomUUID().toString();
+```
+또한 이에 따라 DB Schema도 `BINARY`에서 `VARCHAR`로 변경하였음.
+
+```java
+public class Product {
+    private final UUID productId;
+    private String productName;
+    private Category category;
+    private long price;
+
+    private String description;
+    private final LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+```
+
+### 2. Embedded Mysql Connection은 되는데 테이블 추가하면 오류나는 문제
+    
+![image](https://user-images.githubusercontent.com/84436996/230707085-6327eb23-4673-41fd-be34-c3d21a0d686d.png)
+    
+
+- 직접 구축한 mysql server에 connection 하여 테스트하면 성공하는데 `embedded mysql`을 이용하면 실패하는 것을 보아서, Product table을 추가하는 sql문인 `scehma.sql`을 제대로 읽지 못하는 것으로 보인다.
+- 아직 문제를 해결하지 못하여 embedded mysql를 사용하지 않고 직접 구축한 db 서버에 connection 하여 진행하였다.
