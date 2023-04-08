@@ -9,6 +9,8 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 import static com.wix.mysql.config.MysqldConfig.*;
@@ -42,11 +44,11 @@ class ProductJdbcRepositoryTest {
 
     @Autowired
     ProductRepository productRepository;
-    private final Product newProduct = new Product(UUID.randomUUID(), "new-product", Category.COFFEE_BEAN_PACKAGE, 1000L);
+    private final Product newProduct = new Product(UUID.randomUUID().toString().replace("-",""), "new-product", Category.COFFEE_BEAN_PACKAGE, 1000L,"", LocalDateTime.now(), LocalDateTime.now());
 
     @Test
     @Order(1)
-    @DisplayName("상품을 추가할 수 있다.")
+    @DisplayName("product insert test")
     void testInsert(){
         productRepository.insert(newProduct);
         var all = productRepository.findAll();

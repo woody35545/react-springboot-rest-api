@@ -3,6 +3,7 @@ package com.example.gccoffee.repository;
 import com.example.gccoffee.model.Category;
 import com.example.gccoffee.model.Product;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.nio.ByteBuffer;
@@ -27,14 +28,27 @@ public class ProductJdbcRepository implements ProductRepository{
     }
 
     @Override
-    public Product insert(Product product) {
-        var update = jdbcTemplate.update(
-                "INSERT INTO products(product_id, product_name, category, price, description, created_at, updated_at) VALUES(UUID_TO_BIN(:productId), :productName, :category, :price, :description, :createdAt, :updatedAt)", toParamMap(product));
+    public Product insert(Product product){
+    //  String SQL ="INSERT INTO products(product_id, product_name, category, price, description, created_at, updated_at) " +
+//                "VALUES(UUID_TO_BIN(:productId), :productName, :category, :price, :description, :createdAt, :updatedAt)";
+
+            String SQL ="INSERT INTO products(product_id, product_name, category, price, description, created_at, updated_at) " +
+                "VALUES(:productId, :productName, :category, :price, :description, :createdAt, :updatedAt)";
+
+//        MapSqlParameterSource paramMap = new MapSqlParameterSource();
+//        paramMap.addValue("productId", product.getProductId());
+//        paramMap.addValue("productName", product.getProductName());
+//        paramMap.addValue("category", product.getCategory());
+//        paramMap.addValue("price", product.getPrice());
+//        paramMap.addValue("description", product.getDescription());
+//        paramMap.addValue("createdAt", product.getCreatedAt());
+//        paramMap.addValue("updatedAt", product.getUpdatedAt());
+
+
+        var update = jdbcTemplate.update(SQL, toParamMap(product));
     if(update != 1)
         throw new RuntimeException("Nothing was inserted");
-
     return product;
-
     }
 
     @Override
@@ -63,7 +77,8 @@ public class ProductJdbcRepository implements ProductRepository{
     }
 
     private static final RowMapper<Product> productRowMapper = (resultSet, i) -> {
-        var productId = Utils.toUUID(resultSet.getBytes("product_id"));
+//        var productId = Utils.toUUID(resultSet.getBytes("product_id"));
+        var productId = resultSet.getString("product_id");
         var productName =resultSet.getString("product_name");
         var category =Category.valueOf(resultSet.getString("category"));
         var price =resultSet.getLong("price");
@@ -74,7 +89,8 @@ public class ProductJdbcRepository implements ProductRepository{
     };
     private Map<String, Object> toParamMap(Product product) {
         var paramMap = new HashMap<String, Object>();
-        paramMap.put("productId", product.getProductId().toString().getBytes());
+//        paramMap.put("productId", product.getProductId().toString().getBytes());
+        paramMap.put("productId", product.getProductId().toString());
         paramMap.put("productName",  product.getProductName());
         paramMap.put("category", product.getCategory().toString());
         paramMap.put("price",product.getPrice());

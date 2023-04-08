@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:2215/test-order-mgmt
-    username: test
-    password: test1234!
+    url: jdbc:mysql://13.209.111.12:52868/WoodyCoffeeMgmt
+    username: root
+    password: ku024905!
