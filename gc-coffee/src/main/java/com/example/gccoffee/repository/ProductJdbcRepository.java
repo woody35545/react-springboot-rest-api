@@ -82,8 +82,6 @@ public class ProductJdbcRepository implements ProductRepository{
         paramMap.put("createdAt", product.getCreatedAt());
         paramMap.put("updatedAt", product.getUpdatedAt());
 
-
-
         return paramMap;
     }
 
