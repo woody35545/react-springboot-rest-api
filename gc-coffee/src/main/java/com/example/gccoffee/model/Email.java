@@ -1,10 +1,11 @@
 package com.example.gccoffee.model;
 
+import lombok.Getter;
 import org.springframework.util.Assert;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
-
+@Getter
 public class Email {
     private final String address;
 

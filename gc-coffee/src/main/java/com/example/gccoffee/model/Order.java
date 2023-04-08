@@ -1,9 +1,11 @@
 package com.example.gccoffee.model;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-
+@Getter
 public class Order {
     private final UUID orderId;
     private Email email;
@@ -25,37 +27,6 @@ public class Order {
         this.updatedAt = updatedAt;
     }
 
-
-    public UUID getOrderId() {
-        return orderId;
-    }
-    public Email getEmail() {
-        return email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getPostcode() {
-        return postcode;
-    }
-
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
     public void setEmail(Email email) {
         this.email = email;
         this.updatedAt = LocalDateTime.now();
