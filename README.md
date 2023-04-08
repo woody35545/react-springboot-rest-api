@@ -103,6 +103,7 @@ private final Product newProduct = new Product(UUID.randomUUID().toString().repl
 
 
 ### 2. Embedded Mysql Connection은 되는데 테이블 추가하면 오류나는 문제      
-<img width="700" alt="image" src="https://user-images.githubusercontent.com/84436996/230707085-6327eb23-4673-41fd-be34-c3d21a0d686d.png">
-- 직접 구축한 mysql server에 connection 하여 테스트하면 성공하는데 `embedded mysql`을 이용하면 실패하는 것을 보아서, Product table을 추가하는 sql문인 `scehma.sql`을 제대로 읽지 못하는 것으로 보인다.
+<img width="700" alt="image" src="https://user-images.githubusercontent.com/84436996/230707085-6327eb23-4673-41fd-be34-c3d21a0d686d.png">  
+
+- 직접 구축한 mysql server에 connection 하여 테스트하면 성공하는데 `embedded mysql`을 이용하면 실패하는 것을 보아서, Product table을 추가하는 sql문인 `scehma.sql`을 제대로 읽지 못하는 것으로 보인다.  
 - 아직 문제를 해결하지 못하여 embedded mysql를 사용하지 않고 직접 구축한 db 서버에 connection 하여 진행하였다.
