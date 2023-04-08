@@ -22,6 +22,8 @@ import static org.hamcrest.Matchers.*;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+
 class ProductJdbcRepositoryTest {
     static EmbeddedMysql embeddedMysql;
     @BeforeAll
@@ -44,24 +46,48 @@ class ProductJdbcRepositoryTest {
 
     @Autowired
     ProductRepository productRepository;
-    private final Product newProduct = new Product(UUID.randomUUID().toString().replace("-",""), "new-product", Category.COFFEE_BEAN_PACKAGE, 1000L,"", LocalDateTime.now(), LocalDateTime.now());
+    private static final Product newProduct = new Product(UUID.randomUUID().toString().replace("-",""), "new-product", Category.COFFEE_BEAN_PACKAGE, 1000L);
 
     @Test
     @Order(1)
-    @DisplayName("product insert test")
+    @DisplayName("상품을 추가할 수 있다.")
     void testInsert(){
         productRepository.insert(newProduct);
         var all = productRepository.findAll();
         assertThat(all.isEmpty(), is(false));
     }
 
+//    @Test
+//    @Order(1)
+//    @DisplayName("findAll 테스트")
+//    void testFindAll(){
+//        var all = productRepository.findAll();
+//        assertThat(all.isEmpty(), is(true));
+//    }
+
+
     @Test
-    @Order(1)
-    @DisplayName("findAll 테스트")
-    void testFindAll(){
-        var all = productRepository.findAll();
-        assertThat(all.isEmpty(), is(true));
+    @Order(2)
+    @DisplayName("상품을 이름으로 조회할 수 있다.")
+    void testFindByName() {
+        var product = productRepository.findByName(newProduct.getProductName());
+        assertThat(product.isEmpty(), is(false));
     }
 
+    @Test
+    @Order(3)
+    @DisplayName("상품을아이디로 조회할 수 있다.")
+    void testFindById() {
+        var product = productRepository.findById(newProduct.getProductId());
+        assertThat(product.isEmpty(), is(false));
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("상품들을 카테고리로 조회할 수 있다.")
+    void testFindByCategory() {
+        var product = productRepository.findByCategory(Category.COFFEE_BEAN_PACKAGE);
+        assertThat(product.isEmpty(), is(false));
+    }
 
 }

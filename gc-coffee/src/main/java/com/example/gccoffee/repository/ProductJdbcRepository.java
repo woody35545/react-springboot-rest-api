@@ -42,11 +42,11 @@ public class ProductJdbcRepository implements ProductRepository{
     }
 
     @Override
-    public Optional<Product> findById(UUID productId) {
+    public Optional<Product> findById(String productId) {
         String SQL = "SELECT * FROM products WHERE product_id = :productId";
         try {
             return Optional.of(
-                    jdbcTemplate.queryForObject("SELECT ", Collections.singletonMap("productId", productId), productRowMapper)
+                    jdbcTemplate.queryForObject(SQL, Collections.singletonMap("productId", productId), productRowMapper)
         );
         }catch(EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -58,7 +58,7 @@ public class ProductJdbcRepository implements ProductRepository{
         String SQL = "SELECT * FROM products WHERE product_name = :productName";
         try {
             return Optional.of(
-                    jdbcTemplate.queryForObject("SELECT ", Collections.singletonMap("productName", productName), productRowMapper)
+                    jdbcTemplate.queryForObject(SQL, Collections.singletonMap("productName", productName), productRowMapper)
             );
         }catch(EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -68,7 +68,7 @@ public class ProductJdbcRepository implements ProductRepository{
     @Override
     public List<Product> findByCategory(Category category) {
         String SQL = "SELECT * FROM products WHERE category = :category";
-        return jdbcTemplate.query(SQL, Collections.singletonMap("category", category) ,productRowMapper);
+        return jdbcTemplate.query(SQL, Collections.singletonMap("category", category.toString()) ,productRowMapper);
     }
 
     @Override

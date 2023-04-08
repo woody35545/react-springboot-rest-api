@@ -12,7 +12,7 @@ public interface ProductRepository {
     List<Product> findAll();
     Product insert(Product product);
     Product update(Product product);
-    Optional<Product> findById(UUID productId);
+    Optional<Product> findById(String productId);
     Optional<Product> findByName(String productName);
     List<Product> findByCategory(Category category);
     void deleteAll();
