@@ -1,3 +1,32 @@
+# :heavy_check_mark: Requirements
+* 보안상 application.properties를 git에서 제외하였다. 따라서 프로젝트를 run 하기 위해서는 아래와 같은 설정들이 별도로 작성되어야 한다.
+
+**.../resoucres/application.properties**
+```
+# MySQL
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# DB Source URL
+spring.datasource.url=jdbc:mysql://{DB Server Address}:{Port}/{Database Name}
+a
+# DB username
+spring.datasource.username={id for DB user}
+
+# DB password
+spring.datasource.password={password for DB user}
+```
+
+**.../resources/application-test.yml** -> test에 사용되는 database 정보
+```
+spring:
+  datasource:
+    url: jdbc:mysql://{DB Server Address}:2215/{Database Name}
+    username: {id for DB user}
+    password: {password for user}
+
+```  
+
+
 # :chart_with_upwards_trend: Progress
 * 각 Repository를 바로 구현체로 구현하지 않고 Interface와 구현체를 분리하였다
 * 현재는 NamedParameterJdbcTemplate을 이용한 jdbcRepository의 구현체로 사용중
