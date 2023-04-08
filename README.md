@@ -35,7 +35,7 @@ spring:
 
 # :bug: Bugs
 
-### 1. UUID type 문제
+### 1. UUID type 문제 (해결 완료)
 UUID를 insert 할 때 byte로 변환하는 과정에서 문제가 있는것으로 확인.
 문제 해결될 때까지 나머지 구현이 지체되지 않도록 `UUID` 타입을 `String`으로 변경하여 다루었다. 
 ```
@@ -102,8 +102,72 @@ private final Product newProduct = new Product(UUID.randomUUID().toString().repl
 정상적으로 추가되는 것을 확인하였다.
 
 
-### 2. Embedded Mysql Connection은 되는데 테이블 추가하면 오류나는 문제      
+### 2. Embedded Mysql Connection은 되는데 테이블 추가하면 오류나는 문제 (해결 완료)
 <img width="700" alt="image" src="https://user-images.githubusercontent.com/84436996/230707085-6327eb23-4673-41fd-be34-c3d21a0d686d.png">  
 
 - 직접 구축한 mysql server에 connection 하여 테스트하면 성공하는데 `embedded mysql`을 이용하면 실패하는 것을 보아서, Product table을 추가하는 sql문인 `scehma.sql`을 제대로 읽지 못하는 것으로 보인다.  
 - 아직 문제를 해결하지 못하여 embedded mysql를 사용하지 않고 직접 구축한 db 서버에 connection 하여 진행하였다.
+
+
+### 3. LocalDateTime이 DB에 추가될 때 밀리세컨드가 절삭되어 반영되는 문제 (해결 완료)
+
+- Update는 되는데 Test를 실패해서 확인해보니 다음과 같은 문제가 있었다.
+
+Java에 구현된 Enitiy의 CreatedAt:  `createdAt: <2023-04-08T21:02:36.338311>`
+
+Mysql server에 반영된 값: `createdAt: <2023-04-08T21:02:36>`
+
+### **사용한 테스트 코드**
+
+```java
+...
+@Autowired
+    ProductRepository productRepository;
+    private static final Product newProduct = new Product(UUID.randomUUID().toString().replace("-",""), "new-product", Category.COFFEE_BEAN_PACKAGE, 1000L);
+
+@Test
+    @Order(5)
+    @DisplayName("update test")
+    void testUpdate() {
+        newProduct.setProductName("updated-product");
+        productRepository.update(newProduct);
+
+        var product = productRepository.findById(newProduct.getProductId());
+        assertThat(product.isEmpty(), is(false));
+        assertThat(product.get(), samePropertyValuesAs(newProduct));
+    }
+```
+
+### **테스트 결과**
+
+![image](https://user-images.githubusercontent.com/84436996/230720499-2ca75f53-42a9-4c0c-b2b0-7e448b177fba.png)  
+
+확인 결과 entity를 영속화 할 때, createdAt의 밀리세컨드 단위가 절삭되어 들어가면서 문제가 생기는 것이었다.
+
+- product.createdAt = `createdAt: <2023-04-08T21:09:32.196161>`
+- 실제 DB에 반영된 값 = `createdAt: <2023-04-08T21:09:32>`
+
+![image](https://user-images.githubusercontent.com/84436996/230720509-6cce0156-cecb-49bf-8436-21294279e267.png)  
+
+그래서 테스트 할 때 밀리세컨드 차이 때문에, 동일한 Record임에도 불구하고 
+
+samePropertyValuesAs ⇒ False가 발생한 것이었다.
+
+따라서 Entiy에서 LocalDateTime을 초기화 하는 부분에서 밀리세컨드 단위를 아예 사용하지 않도록 하여 해결하였다.
+
+다음과 같이 모든 LocalDateTime 초기화 파트를 같은 방식으로 변경하여 해결하였다.
+
+**Product.java** 
+
+```java
+public Product(String productId, String productName, Category category, long price) {
+        this.productId = productId;
+        this.productName = productName;
+        this.category = category;
+        this.price = price;
+        //this.createdAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now().withNano(0);
+				//this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now().withNano(0);
+    }
+```
