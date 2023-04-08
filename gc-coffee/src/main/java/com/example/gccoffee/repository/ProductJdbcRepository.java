@@ -2,13 +2,10 @@ package com.example.gccoffee.repository;
 
 import com.example.gccoffee.model.Category;
 import com.example.gccoffee.model.Product;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import java.nio.ByteBuffer;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
 
 import com.example.gccoffee.Utils;
@@ -29,23 +26,11 @@ public class ProductJdbcRepository implements ProductRepository{
 
     @Override
     public Product insert(Product product){
-    //  String SQL ="INSERT INTO products(product_id, product_name, category, price, description, created_at, updated_at) " +
-//                "VALUES(UUID_TO_BIN(:productId), :productName, :category, :price, :description, :createdAt, :updatedAt)";
-
-            String SQL ="INSERT INTO products(product_id, product_name, category, price, description, created_at, updated_at) " +
+        String SQL ="INSERT INTO products(product_id, product_name, category, price, description, created_at, updated_at) " +
                 "VALUES(:productId, :productName, :category, :price, :description, :createdAt, :updatedAt)";
 
-//        MapSqlParameterSource paramMap = new MapSqlParameterSource();
-//        paramMap.addValue("productId", product.getProductId());
-//        paramMap.addValue("productName", product.getProductName());
-//        paramMap.addValue("category", product.getCategory());
-//        paramMap.addValue("price", product.getPrice());
-//        paramMap.addValue("description", product.getDescription());
-//        paramMap.addValue("createdAt", product.getCreatedAt());
-//        paramMap.addValue("updatedAt", product.getUpdatedAt());
-
-
         var update = jdbcTemplate.update(SQL, toParamMap(product));
+
     if(update != 1)
         throw new RuntimeException("Nothing was inserted");
     return product;
@@ -58,23 +43,38 @@ public class ProductJdbcRepository implements ProductRepository{
 
     @Override
     public Optional<Product> findById(UUID productId) {
-        return Optional.empty();
+        String SQL = "SELECT * FROM products WHERE product_id = :productId";
+        try {
+            return Optional.of(
+                    jdbcTemplate.queryForObject("SELECT ", Collections.singletonMap("productId", productId), productRowMapper)
+        );
+        }catch(EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<Product> findByName(String productName) {
-        return Optional.empty();
+        String SQL = "SELECT * FROM products WHERE product_name = :productName";
+        try {
+            return Optional.of(
+                    jdbcTemplate.queryForObject("SELECT ", Collections.singletonMap("productName", productName), productRowMapper)
+            );
+        }catch(EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<Product> findByCategory(Category category) {
-        return null;
+        String SQL = "SELECT * FROM products WHERE category = :category";
+        return jdbcTemplate.query(SQL, Collections.singletonMap("category", category) ,productRowMapper);
     }
 
     @Override
     public void deleteAll() {
-
     }
+
 
     private static final RowMapper<Product> productRowMapper = (resultSet, i) -> {
 //        var productId = Utils.toUUID(resultSet.getBytes("product_id"));
