@@ -171,3 +171,6 @@ public Product(String productId, String productName, Category category, long pri
         this.updatedAt = LocalDateTime.now().withNano(0);
     }
 ```
+
+### 수정 후 테스트 결과
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/84436996/230720622-58afa7e5-1c39-443a-955f-31304d96627d.png">
