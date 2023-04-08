@@ -73,6 +73,7 @@ public class ProductJdbcRepository implements ProductRepository{
 
     @Override
     public void deleteAll() {
+        jdbcTemplate.update("DELETE FROM products", Collections.emptyMap());
     }
 
 
