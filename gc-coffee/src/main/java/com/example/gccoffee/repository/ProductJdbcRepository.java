@@ -38,8 +38,13 @@ public class ProductJdbcRepository implements ProductRepository{
 
     @Override
     public Product update(Product product) {
-        return null;
-    }
+        String SQL = "UPDATE products SET product_name = :productName, category = :category, price = :price, description = :description, created_at = :createdAt, updated_at = :updatedAt" +
+                " WHERE product_id = :productId";
+        var update = jdbcTemplate.update(SQL,toParamMap(product));
+        if (update != 1) {
+            throw new RuntimeException("Nothing was updated");
+        }
+        return product;    }
 
     @Override
     public Optional<Product> findById(String productId) {
