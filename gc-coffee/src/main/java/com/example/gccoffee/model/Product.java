@@ -24,8 +24,8 @@ public class Product {
         this.productName = productName;
         this.category = category;
         this.price = price;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now().withNano(0);
+        this.updatedAt = LocalDateTime.now().withNano(0);
     }
 
 
@@ -41,21 +41,21 @@ public class Product {
 
     public void setPrice(long price) {
         this.price = price;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now().withNano(0);
     }
 
     public void setCategory(Category category) {
         this.category = category;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now().withNano(0);
     }
 
     public void setProductName(String productName) {
         this.productName = productName;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now().withNano(0);
     }
 
     public void setDescription(String description) {
         this.description = description;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now().withNano(0);
     }
 }

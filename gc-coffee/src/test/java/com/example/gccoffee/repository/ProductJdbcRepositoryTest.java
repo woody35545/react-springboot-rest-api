@@ -91,6 +91,18 @@ class ProductJdbcRepositoryTest {
     }
     @Test
     @Order(5)
+    @DisplayName("상품을 수정할 수 있다.")
+    void testUpdate() {
+        newProduct.setProductName("updated-product");
+        productRepository.update(newProduct);
+
+        var product = productRepository.findById(newProduct.getProductId());
+        assertThat(product.isEmpty(), is(false));
+        assertThat(product.get(), samePropertyValuesAs(newProduct));
+    }
+
+    @Test
+    @Order(6)
     @DisplayName("상품을 전체 삭제한다.")
     void testDeleteAll() {
         productRepository.deleteAll();
