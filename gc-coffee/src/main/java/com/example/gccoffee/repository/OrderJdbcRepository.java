@@ -26,6 +26,8 @@ public class OrderJdbcRepository implements OrderRepository {
         jdbcTemplate.update("INSERT INTO orders(order_id, email, address, postcode, order_status, created_at, updated_at) " +
                         "VALUES (:orderId, :email, :address, :postcode, :orderStatus, :createdAt, :updatedAt)",
                 toOrderParamMap(order));
+
+        if(order.getOrderItems() != null)
         order.getOrderItems()
                 .forEach(item ->
                         jdbcTemplate.update("INSERT INTO order_items(order_id, product_id, category, price, quantity, created_at, updated_at) " +
