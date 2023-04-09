@@ -20,5 +20,9 @@ public class ProductController {
         model.addAttribute("products", products);
         return "product-list";
     }
+    @GetMapping("new-product")
+    public String newProductPage() {
+        return "new-product";
+    }
 
 }
