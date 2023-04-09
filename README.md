@@ -36,6 +36,7 @@ spring:
 # :bug: Bugs
 
 ### 1. UUID type 문제 (해결 완료)
+
 UUID를 insert 할 때 byte로 변환하는 과정에서 문제가 있는것으로 확인.
 문제 해결될 때까지 나머지 구현이 지체되지 않도록 `UUID` 타입을 `String`으로 변경하여 다루었다. 
 ```
@@ -108,7 +109,6 @@ private final Product newProduct = new Product(UUID.randomUUID().toString().repl
 - 직접 구축한 mysql server에 connection 하여 테스트하면 성공하는데 `embedded mysql`을 이용하면 실패하는 것을 보아서, Product table을 추가하는 sql문인 `scehma.sql`을 제대로 읽지 못하는 것으로 보인다.  
 - 아직 문제를 해결하지 못하여 embedded mysql를 사용하지 않고 직접 구축한 db 서버에 connection 하여 진행하였다.
 
-
 ### 3. LocalDateTime이 DB에 추가될 때 밀리세컨드가 절삭되어 반영되는 문제 (해결 완료)
 
 - Update는 되는데 Test를 실패해서 확인해보니 다음과 같은 문제가 있었다.
@@ -174,3 +174,4 @@ public Product(String productId, String productName, Category category, long pri
 
 ### 수정 후 테스트 결과
 <img width="400" alt="image" src="https://user-images.githubusercontent.com/84436996/230720622-58afa7e5-1c39-443a-955f-31304d96627d.png">
+
