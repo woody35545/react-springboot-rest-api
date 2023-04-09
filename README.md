@@ -25,8 +25,17 @@ spring:
     password: {password for user}
 
 ```  
+# 📑 Database Schema
 
+### **products**
 
+![image](https://user-images.githubusercontent.com/84436996/230774454-3971a8e9-0e07-451a-92a3-1555aec278b2.png)
+### o******rders******
+
+![image](https://user-images.githubusercontent.com/84436996/230774460-76f41dfc-caab-4415-85cc-69f9c57f9054.png)
+### order_items
+
+![image](https://user-images.githubusercontent.com/84436996/230774465-f38cf9a7-05e9-42f1-bb72-25c37c16b402.png)
 # :chart_with_upwards_trend: Progress
 * 각 Repository를 바로 구현체로 구현하지 않고 Interface와 구현체를 분리하였다
 * 현재는 NamedParameterJdbcTemplate을 이용한 jdbcRepository의 구현체로 사용중
