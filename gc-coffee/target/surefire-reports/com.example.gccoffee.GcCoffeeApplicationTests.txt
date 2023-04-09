@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: com.example.gccoffee.GcCoffeeApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.945 s <<< FAILURE! - in com.example.gccoffee.GcCoffeeApplicationTests
+contextLoads  Time elapsed: 0.006 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext for [WebMergedContextConfiguration@2dd8ff1d testClass = com.example.gccoffee.GcCoffeeApplicationTests, locations = [], classes = [com.example.gccoffee.GcCoffeeApplication], contextInitializerClasses = [], activeProfiles = [], propertySourceLocations = [], propertySourceProperties = ["org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true"], contextCustomizers = [org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@1e6454ec, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@1613674b, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@57af006c, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@9da1, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@1b1426f4, org.springframework.boot.test.context.SpringBootTestAnnotation@9ec68d48], resourceBasePath = "src/main/webapp", contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Failed to execute SQL script statement #2 of file [/Users/gunmo/GitHub/react-springboot-rest-api/gc-coffee/target/classes/schema.sql]: (
+Caused by: org.springframework.jdbc.datasource.init.ScriptStatementFailedException: Failed to execute SQL script statement #2 of file [/Users/gunmo/GitHub/react-springboot-rest-api/gc-coffee/target/classes/schema.sql]: (
+Caused by: org.h2.jdbc.JdbcSQLSyntaxErrorException: 
+Syntax error in SQL statement "([*]"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+( [42001-214]
+
