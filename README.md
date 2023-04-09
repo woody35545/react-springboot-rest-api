@@ -1,10 +1,31 @@
-# :checkered_flag: PRODUCT MGMT Cloning 완료
+
+## 🚀 Project Code
+
+### :checkered_flag: PRODUCT MGMT Cloning 완료
 **Commit**: `05685053c9c3581b84030ce7fd9b0d3c8c6f6fef`  
 **Branch**: [react-springboot-rest-api/product-mgmt](https://github.com/woody35545/react-springboot-rest-api/tree/product-mgmt)
 
-# :checkered_flag: ORDER API Cloning 완료
+### :checkered_flag: ORDER API Cloning 완료
 **Commit**: `0748524d5ff6a6908c5529fec341971926c00245`  
 **Branch**: [react-springboot-rest-api/order-api](https://github.com/woody35545/react-springboot-rest-api/tree/order-api)
+
+## 🚀 완성된 프로젝트 테스트
+
+### **테스트를 위해 상품을 다음과 같이 추가해주었다.**
+
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/84436996/230781559-a8ca1614-9f06-4081-822e-bee20e722583.png">
+
+### **React 서버에서도 추가한 상품이 정상적으로 렌더링 되는 것을 확인하였다.**
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/84436996/230781562-111710da-b166-48e3-b6db-2a8c43536c04.png">
+
+### **다음과 같이 주문을 넣어 제대로 DB에 반영되는지 확인해보았다.**  
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/84436996/230781566-3c916aa5-df9b-4e7e-b35f-cc318d3b0244.png">
+
+### **API가 정상적으로 호출되었을 때 나오도록 한 문구가 출력되는 것을 볼 수 있다.**  
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/84436996/230781573-0d038b7a-96d8-4b43-9676-7298cecf1804.png">
+
+### **Order 테이블을 확인해보면 정상적으로 추가된 것을 볼 수 있다.**  
+<img width="1000" alt="image" src="https://user-images.githubusercontent.com/84436996/230781577-fa19dde1-5d04-4c57-a764-58d5e89c3db1.png">
 
 
 # :heavy_check_mark: Requirements
