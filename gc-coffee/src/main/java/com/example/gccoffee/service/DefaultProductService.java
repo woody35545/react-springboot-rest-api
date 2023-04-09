@@ -37,7 +37,7 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public Product createProduct(String productName, Category category, long price, String description) {
-        var product = new Product(UUID.randomUUID().toString(), productName, category, price, description, LocalDateTime.now(), LocalDateTime.now());
+        var product = new Product(UUID.randomUUID().toString(), productName, category, price, description, LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
         return productRepository.insert(product);
     }
 
