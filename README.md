@@ -1,3 +1,12 @@
+# :checkered_flag: PRODUCT MGMT Cloning 완료
+**Commit**: `05685053c9c3581b84030ce7fd9b0d3c8c6f6fef`  
+**Branch**: [react-springboot-rest-api/product-mgmt](https://github.com/woody35545/react-springboot-rest-api/tree/product-mgmt)
+
+# :checkered_flag: ORDER API Cloning 완료
+**Commit**: `0748524d5ff6a6908c5529fec341971926c00245`  
+**Branch**: [react-springboot-rest-api/order-api](https://github.com/woody35545/react-springboot-rest-api/tree/order-api)
+
+
 # :heavy_check_mark: Requirements
 * 보안상 application.properties를 git에서 제외하였다. 따라서 프로젝트를 run 하기 위해서는 아래와 같은 설정들이 별도로 작성되어야 한다.
 
