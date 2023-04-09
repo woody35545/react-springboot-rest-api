@@ -29,6 +29,30 @@ function App()
     axios.get('http://localhost:8080/api/v1/products')
       .then(v => setProducts(v.data));
   }, []);
+const handleOrderSubmit = (order) => {
+    if (items.length === 0) {
+      alert("아이템을 추가해 주세요!");
+    } else {
+      axios.post('http://localhost:8080/api/v1/orders', {
+        email: order.email,
+        address: order.address,
+        postcode: order.postcode,
+        orderItems: items.map(v => ({
+          productId: v.productId,
+          category: v.category,
+          price: v.price,
+          quantity: v.count
+        }))
+      }).then(
+        v => alert("주문이 정상적으로 접수되었습니다."),
+        e => {
+          alert("서버 장애");
+          console.error(e);
+        })
+    }
+  }
+
+
 
   return (
     <div className="container-fluid">
